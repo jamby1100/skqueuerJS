@@ -37,18 +37,19 @@ var mainQueue = [
 ];
 
 var rules = [
-    ["skin-care-check", 2],
+    ["face-care-check", 2],
     ["summer-collection-check", 2],
-    ["skin-care-check", 1],
+    ["face-care-check", 1],
 ]
 
 var x = [1,2,3]
 var queuer = $kq(mainQueue, rules);
-queuer.addFilterFunction("skin-care-check", function(elem){
-    
-})
+queuer.addFilterFunction("face-care-check", function(elem){
+    return elem.section === 'face-care'
+}, true)
 
 queuer.addFilterFunction("summer-collection-check", function(elem){
-    
-})
-queuer.run();
+    return elem.section === 'summer-collection'
+}, true)
+
+var results = queuer.run();
