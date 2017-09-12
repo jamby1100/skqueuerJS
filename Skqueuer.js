@@ -38,21 +38,44 @@
     
     // TODO
     // - Add support when mainQueue is more than the sum of the rules
+    // - Add support for interlapping multiQueue sets
+    
+    var validator = function(results, element) {
+        return _.includes(_.flatten(results), _.first(element))
+    }
+    
     var alternatorCoreFunction = function(multiQueue, rules) {
-        results = []
+        var results = []
         var multiQueueCopy = _.cloneDeep(multiQueue)
 
         // For each rule, fetch elements from appropriate queue in multiQueue
-        _.each(rules, function(value) {
-          var functionName = value[0];
-          var items = value[1];
         
-          results.push(multiQueueCopy[functionName].splice(0,items));  
+//        do {
+//            
+//        } while ()
+                 
+        _.each(rules, function(rule_set) {
+          var functionName = rule_set[0];
+          var items = rule_set[1];
+          
+          for (i = 0; i < items; i++) {
+              var element = null;
+              
+              do {
+                element = multiQueueCopy[functionName].splice(0,1);
+              } while (validator(results, element));
+              
+              
+              results.push(element);              
+          }
         });
         
         return results;
     }
     
+    var blackOutAlternatorCoreFunction = function(multiQueue, rules) {
+        // 
+    }
     // -- PUBLIC METHODS
     Skqueuer.prototype = {
         // Add Filtering Functions
@@ -83,12 +106,14 @@
         // - Start the queueing from:
         //      - RIGHT
         //      - LEFT (default)
-        run: function() {
+        run: function(mode) {
             if (validateFilterFunctions(this.rules, this.filterFunctions)) {
                 smartConsole("validateFilterFunctions true");
             } else {
                 smartConsole("validateFilterFunctions failed");
             };
+            
+            var runMode = mode || "blackOut"
             
             var multiQueue = deriveMultiQueue(this.mainQueue, this.filterFunctions);
             var resultingQueue = alternatorCoreFunction(multiQueue, this.rules);
