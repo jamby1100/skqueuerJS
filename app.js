@@ -67,8 +67,8 @@ var mainQueue = [
         ["face-care-section-check", 1] // 2,3,5
     ]; 
 
-    // Correct Result => 1,2,4,3
-    // Distorted => 1,2
+    // Correct Result => 1,2,4,3,5
+    // Distorted => 1,2,4,3,5
     // Pseudo Result => 1,1,2
 
     var queuer = $kq(mainQueue, rules);
@@ -82,7 +82,7 @@ var mainQueue = [
 
     queuer.addFilterFunction("skin-care-taxon-check", function(elem){
       return _.filter(elem.taxons, function(taxon){
-          return taxon === 'skincare-x'
+          return taxon === 'skincare'
       }).length > 0
     })
 

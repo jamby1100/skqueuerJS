@@ -37,38 +37,41 @@
     };
     
     // TODO
-    // - Add support when mainQueue is more than the sum of the rules
-    // - Add support for interlapping multiQueue sets
+    // - Add support when mainQueue is more than the sum of the rules -- DONE
+    // - Add support for interlapping multiQueue sets -- DONE
     
     var validator = function(results, element) {
         return _.includes(_.flatten(results), _.first(element))
     }
     
-    var alternatorCoreFunction = function(multiQueue, rules) {
+    var alternatorCoreFunction = function(multiQueue, rules, maxLength) {
         var results = []
         var multiQueueCopy = _.cloneDeep(multiQueue)
 
         // For each rule, fetch elements from appropriate queue in multiQueue
         
-//        do {
-//            
-//        } while ()
-                 
-        _.each(rules, function(rule_set) {
-          var functionName = rule_set[0];
-          var items = rule_set[1];
-          
-          for (i = 0; i < items; i++) {
-              var element = null;
-              
-              do {
-                element = multiQueueCopy[functionName].splice(0,1);
-              } while (validator(results, element));
-              
-              
-              results.push(element);              
-          }
-        });
+        do {
+            _.each(rules, function(rule_set) {
+              var functionName = rule_set[0];
+              var items = rule_set[1];
+
+              for (i = 0; i < items; i++) {
+                  // Go to the next iteration if this multiqueue is empty
+                  if (multiQueueCopy[functionName].length === 0) {
+                      continue;
+                  }
+                  
+                  // for this ruleset, continously pop off elements from the current
+                  // queue until the result is not a duplicate in results
+                  var element = null;
+                  do {
+                    element = multiQueueCopy[functionName].splice(0,1);
+                  } while (validator(results, element));
+
+                  results.push(element);              
+              }
+            });            
+        } while (!(results.length >= maxLength))
         
         return results;
     }
@@ -115,8 +118,8 @@
             
             var runMode = mode || "blackOut"
             
-            var multiQueue = deriveMultiQueue(this.mainQueue, this.filterFunctions);
-            var resultingQueue = alternatorCoreFunction(multiQueue, this.rules);
+            var multiQueue = deriveMultiQueue(this.mainQueue, this.filterFunctions);    
+            var resultingQueue = alternatorCoreFunction(multiQueue, this.rules, this.mainQueue.length);
             
             
             return _.flatten(resultingQueue);   
