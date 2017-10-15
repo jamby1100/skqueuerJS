@@ -113,10 +113,33 @@ Custome filter function must return either a true or a false.
     var results = queuer.run();
 ```
 
-## Structure
-SkqueuerJS is divided into 2 Modules
+## Wishlist of Features
+SkqueuerJS is divided into 2 Primary Modules. If you have spare time and enough JavaScript skills, feel free to work on these features and send me a pull request! :D
 
 ### Automated Function Factory
-You can generate a function just by creating strings.
+- Allow the checking of attributues within nested objects inside an element
+- Support for arrays and numbers (and hence greater-than, less-than and other number comparison operators) for an element.
+- Support for contained in string `comparatorValue`
+- Support for an array of `comparatorValue`s
+- Support for an object `comparatorValue`
+
 ### Queue Module
+- Validations
+    - Unique ID
+    - Check if filter function:
+        - is a function
+        - has one parameter
+        - returns a true/false given one sample element from mainQueue
+        - is on the rules
+- How many elements do you want to come out?
+    - Constant: I want 100 Elements
+    - Iterations: Run the rule set for 5 iterations
+    - Black Out: Ensure that every single element in the this.mainQueue gets used
+- What to do when an element gets eligible for 2 rules
+    - Default: Do not allow duplicated elements
+    - AllowDuplicate: Allow duplicated elements
+- Start the queueing from:
+    - RIGHT
+    - LEFT (default)
+
 
