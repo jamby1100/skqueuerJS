@@ -35,6 +35,9 @@
     }
     
     var queueModule = {
+        // derive the multiqueue by filtering the elements by all its filterFunctions.
+        // this module allows elements to be included in several queues in the multiqueue
+        // as long as it passed the criteria set upon by the filterFunction of a particular q
         deriveMultiQueue: function (mainQueue, filterFunctions) {
             var multiQueue = {}
 
@@ -45,9 +48,15 @@
 
             return multiQueue;
         },  
+        
+        // check if a given element is already included in the results
         validator: function(results, element) {
             return _.includes(_.flatten(results), _.first(element))
         },
+        
+        // for a given rule set, fetch X number of elements from the given copy of the multiQueue
+        // with the condition that the element has not been previous included in the result.
+        // with X being defined in the rule_set.
         fetchRuleEligibleElements: function(rule_set, results, multiQueueCopy) {
             var functionName = rule_set[0];
             var items = rule_set[1];
@@ -176,13 +185,6 @@
     // -- PUBLIC METHODS
     Skqueuer.prototype = {
         // Add Filtering Functions
-        
-        // TODO
-        // - Check if fx is a function
-        // - Check if fx has one parameter
-        // - Check if fx returns a true/false given one sample element from mainQueue
-        // - Check if fx is on the rules
-        
         addFilterFunction: function(fx_name, fx, replace_forced){
             var replace_forced = replace_forced || false
             if ((this.filterFunctions[fx_name] === undefined) || (replace_forced === true) ) {
@@ -194,16 +196,6 @@
         
         // Run the Queueing Mechanism
         // TODO
-        // - How many elements do you want to come out?
-        //      - Constant: I want 100 Elements
-        //      - Iterations: Run the rule set for 5 iterations
-        //      - Black Out: Ensure that every single element in the this.mainQueue gets used
-        // - What to do when an element gets eligible for 2 rules
-        //      - Default: Do not allow duplicated elements
-        //      - AllowDuplicate: Allow duplicated elements
-        // - Start the queueing from:
-        //      - RIGHT
-        //      - LEFT (default)
         run: function(mode) {  
             if (validationModule.filterFunctions(this.rules, this.filterFunctions)) {
                 smartConsole("validateFilterFunctions true");
