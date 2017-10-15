@@ -74,8 +74,8 @@
 
             return [results, multiQueueCopy];
         },
+        
         alternatorCoreFunction: function(multiQueue, rules, maxLength) {
-            debugger;
             var results = [];
             var multiQueueCopy = _.cloneDeep(multiQueue);
             var self = this; // for my sanity
