@@ -14,7 +14,7 @@ Plug in to your HTML File via the script tag. Remember to make the lodash script
 ```
 ### Usage
 
-(1) Define your `mainQueue` and your `rules` variable. Your `mainQueue` is where you'd get your elements from. They must be objects with attributes. Your `rules` variable is how you define the ordering of your elements based on a certain criteria. You will define the criteria (and how it distinguishes elements) on Part (2).
+(1) Define your `mainQueue` and your `rules` variable. Your `mainQueue` is where you'd get your elements from. They must be objects with attributes and must have a unique ID. Your `rules` variable is how you define the ordering of your elements based on a certain criteria. You will define the criteria (and how it distinguishes elements) on Part (2).
 ```javascript
     var mainQueue = [
         {
@@ -85,7 +85,9 @@ You have to use the `queuer.addFilterFunction()` method to add filter functions 
 
 There is a format in creating a string that the library can parse to generate a function for you. We call this string the `operatorString`. A sample can be: `equal_section_to_face-care`
 
-The system divides this string into three: the operator (in this case, `equal`), the attribute (in this case, `section`, the filter function is given an element for which it gets the `section` attribute of that element to get the `valueToBeCompared`), and the `conjunctiveStatement` which is optional (more on this later. For this case, it has no conjunctive statement).
+The system divides this string into two: The `conditionString` (in this case `equal_section`) and the `comparatorValue` (in this case `face-care`).
+
+The `conditionString` is further divided into three parts: the operator (in this case, `equal`), the attribute (in this case, `section`, the filter function is given an element for which it gets the `section` attribute of that element to get the `valueToBeCompared`), and the `conjunctiveStatement` which is optional (more on this later. For this case, it has no conjunctive statement).
 
 (3B) Create your own filter functions
 Custome filter function must return either a true or a false.
