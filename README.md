@@ -11,7 +11,7 @@ Plug in to your HTML File via the script tag. Remember to make the lodash script
 <script src="lodash.js"></script>
 <script src="Skqueuer.js"></script>
 <script src="app.js"></script>
-
+```
 ### Usage
 
 (1) Define your mainQueue. This is where you'd get elements from:
