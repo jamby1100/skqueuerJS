@@ -42,23 +42,22 @@ var mainQueue = [
 ];
 
 // -- FIRST RULE SAMPLES
-//    var rules = [
-//        ["face-care-check", 2],
-//        ["summer-collection-check", 2],
-//        ["face-care-check", 1],
-//    ]
-//
-//    var x = [1,2,3]
-//    var queuer = $kq(mainQueue, rules);
-//    queuer.addFilterFunction("face-care-check", function(elem){
-//        return elem.section === 'face-care'
-//    }, true)
-//
-//    queuer.addFilterFunction("summer-collection-check", function(elem){
-//        return elem.section === 'summer-collection'
-//    }, true)
-//
-//    var results = queuer.run();
+    var rules = [
+        ["face-care-check", 2],
+        ["summer-collection-check", 2],
+        ["face-care-check", 1],
+    ]
+
+    var queuer = $kq(mainQueue, rules);
+    queuer.addFilterFunction("face-care-check", function(elem){
+        return elem.section === 'face-care'
+    }, true)
+
+    queuer.addFilterFunction("summer-collection-check", function(elem){
+        return elem.section === 'summer-collection'
+    }, true)
+
+    var results = queuer.run();
 
 // -- SECOND RULE SAMPLES
     var rules = [
@@ -86,4 +85,20 @@ var mainQueue = [
       }).length > 0
     })
 
-    var results = queuer.run();
+    // var results = queuer.run();
+
+// -- THIRD RULE SAMPLES
+    // INPUT (operatorString): equal_valueOne_and_includes_valueTwo_or_equal_valueThree_to_jamby
+    var rules2 = [
+        ["equal_section_to_face-care", 2],
+        ["equal_section_to_summer-collection", 2]
+    ]; 
+
+    var queuer = $kq(mainQueue, rules2);
+
+    var a = queuer.automatedFunctionGeneratorModule(rules2);
+
+    queuer.addFilterFunction("equal_section_to_face-care", a["equal_section_to_face-care"])
+    queuer.addFilterFunction("equal_section_to_summer-collection", a["equal_section_to_summer-collection"])
+
+    var results = queuer.run(); 
